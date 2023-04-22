@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Institution;
+use Illuminate\Support\Facade\Validator;
 
 class InstitutionController extends Controller
 {
@@ -13,7 +15,7 @@ class InstitutionController extends Controller
      */
     public function index()
     {
-        //
+        return Institution::all();
     }
 
     /**
@@ -21,9 +23,25 @@ class InstitutionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[ //why is the validator erroring me and is the 'all()' necessary since im writing the entire array?
+            'institution_no' => 'required',
+            'name' => 'required',
+            'owner' => 'required',
+            'information' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json('Please fill all fields',400);
+        }
+
+        Institution::create([
+            'institution_no' => $request->institution_no,
+            'name' => $request->name,
+            'owner' => $request->owner,
+            'information' => $request->information
+        ]);
     }
 
     /**
@@ -32,10 +50,18 @@ class InstitutionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    /**
+     * public function store(Request $request)
+    *{
+    *   $request->validate([
+    *       'institution_no' => 'required',
+    *       'name' => 'required',
+    *       'owner' => 'required',
+    *       'information' => 'required'
+    *   ]);
+    *   return Institution::create($request->all());
+    *}
+     */
 
     /**
      * Display the specified resource.
@@ -45,7 +71,7 @@ class InstitutionController extends Controller
      */
     public function show($id)
     {
-        //
+        return Institution::find($id);
     }
 
     /**
@@ -68,7 +94,9 @@ class InstitutionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $institution = Institution::find($id);
+        $institution->update($request->all());
+        return $institution;
     }
 
     /**
@@ -79,6 +107,11 @@ class InstitutionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Institution::destroy($id);
+    }
+
+    public function search($name)
+    {
+        return Institution::where('name', 'like', '%'.$name.'%')->get();
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('institution_no');
             $table->string('name');
             $table->string('owner');
+            $table->text('information');
             $table->timestamps();
         });
     }

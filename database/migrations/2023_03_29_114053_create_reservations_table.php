@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('reservation_no');
             $table->string('name');
-            $table->date('duration'); //how long will they stay in there from when to when
-            $table->string('payment');
+            $table->date('arrival');
+            $table->date('departure');
+            $table->float('payment');
+            $table->foreignId('room_id')->constrained('rooms');
             $table->timestamps();
         });
     }
