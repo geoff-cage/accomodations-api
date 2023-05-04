@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccomodationController;
 use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +21,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//protected routes
+Route::middleware('auth:sanctum')->group( function () {
+    
+});
+
 Route::get('/institutions', [InstitutionController::class, 'index']);
 Route::post('/institutions/create', [InstitutionController::class, 'create']);
-Route::post('/institutions', [InstitutionController::class, 'store']); // this is no longer needed right?
 Route::get('/institutions/{id}', [InstitutionController::class, 'show']);
-Route::post('/institutions/update{id}', [InstitutionController::class, 'update']);
+Route::post('/institutions/update/{id}', [InstitutionController::class, 'update']);
 Route::get('/institutions/search/{name}', [InstitutionController::class, 'search']);
-Route::get('/institutions/delete{id}', [InstitutionController::class, 'delete']);
+Route::get('/institutions/destroy/{id}', [InstitutionController::class, 'destroy']);

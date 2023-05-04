@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Institution;
-use Illuminate\Support\Facade\Validator;
+use Illuminate\Support\Facades\Validator;
 
 class InstitutionController extends Controller
 {
@@ -25,7 +25,7 @@ class InstitutionController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(),[ //why is the validator erroring me and is the 'all()' necessary since im writing the entire array?
+        $validator = Validator::make($request->all(),[ 
             'institution_no' => 'required',
             'name' => 'required',
             'owner' => 'required',
