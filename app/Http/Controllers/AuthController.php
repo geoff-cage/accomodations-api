@@ -15,19 +15,62 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),[ 
             'name' => 'required',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required'
+            'password' => 'required|string|confirmed'
         ]);
 
         if ($validator->fails()) {
             return response()->json('Please fill all fields',400);
         }
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
 
-        $user = User::where(); // please assist i wanna create a token but im not familiar when using a model directly
+         $token = $user->createToken('Institutionalized')->plainTextToken;
+
+         $response = [
+            'user' => $user,
+            'token' => $token
+         ];
+
+         return response($response, 201);
+    }
+
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string',
+            'password' => 'required|string'
+        ]);
+
+        //check email
+        $user = User::where('email', $request->email)->first();
+
+        //check password
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            return response()->json('The provided credentials are incorrect.', 400);
+        }
+
+        $token = $user->createToken('Institutionalized')->plainTextToken;
+
+        $response = [
+           'user' => $user,
+           'token' => $token
+        ];
+
+        return response($response, 201);
+    }
+
+    public function logout(Request $request)
+    {
+        auth()->user()->tokens()->delete(); 
+        //$request->user()->tokens()->delete();  both methods work im just curious as why i get the red line on the top one 
+
+        return[
+            'message' => 'Logged out'
+        ];
     }
 }

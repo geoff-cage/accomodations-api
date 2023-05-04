@@ -23,9 +23,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //protected routes
 Route::middleware('auth:sanctum')->group( function () {
-    
+    Route::post('/logout', [AuthController::class, 'logout']);    
 });
 
+//
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+
+//institution
 Route::get('/institutions', [InstitutionController::class, 'index']);
 Route::post('/institutions/create', [InstitutionController::class, 'create']);
 Route::get('/institutions/{id}', [InstitutionController::class, 'show']);
