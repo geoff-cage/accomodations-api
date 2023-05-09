@@ -15,4 +15,9 @@ class Institution extends Model
         'owner',
         'information'
     ];
+
+    public function accomodations()
+    {
+        return $this->hasMany(Accomodation::class);
+    }
 }

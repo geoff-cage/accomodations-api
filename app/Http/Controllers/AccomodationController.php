@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Accomodation;
+use App\Models\{Institution, Accomodation};
+use Illuminate\Support\Facades\Validator;
 
 class AccomodationController extends Controller
 {
@@ -14,7 +15,7 @@ class AccomodationController extends Controller
      */
     public function index()
     {
-        //
+        return Accomodation::all();
     }
 
     /**

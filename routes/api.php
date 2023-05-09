@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\AccomodationController;
-use App\Http\Controllers\InstitutionController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\{AuthController,InstitutionController, AccomodationController};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //protected routes
 Route::middleware('auth:sanctum')->group( function () {
-    Route::post('/logout', [AuthController::class, 'logout']);    
+    Route::post('/logout', [AuthController::class, 'logout']);   
+    
+    
 });
 
 //
@@ -38,3 +38,6 @@ Route::get('/institutions/{id}', [InstitutionController::class, 'show']);
 Route::post('/institutions/update/{id}', [InstitutionController::class, 'update']);
 Route::get('/institutions/search/{name}', [InstitutionController::class, 'search']);
 Route::get('/institutions/destroy/{id}', [InstitutionController::class, 'destroy']);
+
+//accomodations
+Route::get('/accomodations', [AccomoddationController::class, 'index']);
