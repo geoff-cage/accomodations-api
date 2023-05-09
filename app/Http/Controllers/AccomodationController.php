@@ -23,9 +23,27 @@ class AccomodationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[ 
+            'accomodation_no' => 'required',
+            'accomodation_name' => 'required',
+            'location' => 'required',
+            'institution_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json('Please fill all the fields',400);
+        }
+
+        Accomodation::create([
+            'accomodation_no' => $request->accomodation_no,
+            'accomodation_name' => $request->accomodation_name,
+            'location' => $request->location,
+            'institution_id' => $request->institution_id
+        ]);
+
+        return 'Accomodation';
     }
 
     /**
@@ -45,9 +63,9 @@ class AccomodationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($institution_id)
     {
-        //
+        return Accomodation::where('id', $institution_id); // if i use 'Accomodation::find($institution_id)' it brings by accomodation id and not institution id
     }
 
     /**

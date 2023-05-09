@@ -40,4 +40,6 @@ Route::get('/institutions/search/{name}', [InstitutionController::class, 'search
 Route::get('/institutions/destroy/{id}', [InstitutionController::class, 'destroy']);
 
 //accomodations
-Route::get('/accomodations', [AccomoddationController::class, 'index']);
+Route::get('/accomodations', [AccomodationController::class, 'index']);
+Route::post('/accomodations/create', [AccomodationController::class, 'create']);
+Route::get('/accomodations/{institution_id}', [AccomodationController::class, 'show']);

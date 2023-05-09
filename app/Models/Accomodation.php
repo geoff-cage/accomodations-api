@@ -16,5 +16,8 @@ class Accomodation extends Model
         'institution_id'
     ];
 
-    
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
 }
