@@ -63,9 +63,17 @@ class AccomodationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($institution_id)
+    public function show($id)
     {
-        return Accomodation::where('id', $institution_id); // if i use 'Accomodation::find($institution_id)' it brings by accomodation id and not institution id
+        return  Accomodation::find($id);
+    }
+
+    public  function getRooms($accomodation_id)
+    {
+        $accomodation = Accomodation::findOrFail($accomodation_id);
+        $rooms = $accomodation->rooms;
+    
+    return response()->json($rooms);
     }
 
     /**
@@ -88,7 +96,9 @@ class AccomodationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $accomodation = Accomodation::find($id);
+        $accomodation->update($request->all());
+        return $accomodation;
     }
 
     /**
@@ -99,6 +109,11 @@ class AccomodationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Accomodation::destroy($id);
+    }
+
+    public function search($accomodation_name)
+    {
+        return Institution::where('accomodation_name', 'like', '%'.$accomodation_name.'%')->get();
     }
 }

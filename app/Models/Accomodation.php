@@ -20,4 +20,9 @@ class Accomodation extends Model
     {
         return $this->belongsTo(Institution::class);
     }
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
 }

@@ -74,6 +74,14 @@ class InstitutionController extends Controller
         return Institution::find($id);
     }
 
+    public  function getAccomodations($institution_id)
+    {
+        $institution = Institution::findOrFail($institution_id);
+        $accomodations = $institution->accomodations;
+    
+    return response()->json($accomodations);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
