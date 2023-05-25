@@ -29,7 +29,7 @@ class RoomController extends Controller
             'room_name',
             'price' => 'required',
             'type' => 'required',
-            'status' => 'required',
+            'status',
             'accomodation_id' => 'required'
         ]);
 

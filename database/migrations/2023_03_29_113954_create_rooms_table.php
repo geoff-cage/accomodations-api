@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('room_no');
             $table->string('room_name')->nullable();
             $table->integer('type'); // types of rooms, regular, deluxe, presidential etc
-            $table->float('price');
-            $table->boolean('status');// available or booked 
+            $table->float('price',30,2);
+            $table->boolean('status')->default(0);// available 1 or booked 0
             $table->foreignId('accomodation_id')->constrained('accomodations');
             $table->timestamps();
         });

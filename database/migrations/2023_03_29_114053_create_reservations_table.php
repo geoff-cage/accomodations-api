@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->date('arrival');
             $table->date('departure');
-            $table->float('payment');
+            $table->float('payment',30,2);
             $table->foreignId('room_id')->constrained('rooms');
             $table->timestamps();
         });
