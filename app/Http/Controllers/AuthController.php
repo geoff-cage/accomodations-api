@@ -15,7 +15,8 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),[ 
             'name' => 'required',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed',
+            'role'
         ]);
 
         if ($validator->fails()) {
@@ -25,7 +26,8 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'role' =>$request->role
         ]);
 
          $token = $user->createToken('Institutionalized')->plainTextToken;
@@ -51,7 +53,7 @@ class AuthController extends Controller
 
         //check password
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            return response()->json('The provided credentials are incorrect.', 400);
+            return 'The provided credentials are incorrect.'; //response()->json(, 400)
         }
 
         $token = $user->createToken('Institutionalized')->plainTextToken;
@@ -61,13 +63,17 @@ class AuthController extends Controller
            'token' => $token
         ];
 
-        return response($response, 201);
+        if($user->role == 1) {
+            return 'ur in bob';
+        }
+        return 'not sure that works';
+        //return response($response, 201);
     }
 
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete(); 
-        //$request->user()->tokens()->delete();  both methods work im just curious as why i get the red line on the top one 
+        $request()->user()->tokens()->delete(); 
+        //$auth->user()->tokens()->delete();  both methods work im just curious as why i get the red line on the top one 
 
         return[
             'message' => 'Logged out'
